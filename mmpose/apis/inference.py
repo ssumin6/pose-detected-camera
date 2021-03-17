@@ -1,5 +1,5 @@
 import os
-
+import time
 import cv2
 import mmcv
 import numpy as np
@@ -276,12 +276,13 @@ def _inference_single_pose_model(model,
 
     # forward the model
     with torch.no_grad():
+        start = time.time()
         result = model(
             img=data['img'],
             img_metas=data['img_metas'],
             return_loss=False,
             return_heatmap=return_heatmap)
-
+        print(time.time()-start)
     return result['preds'][0], result['output_heatmap']
 
 
