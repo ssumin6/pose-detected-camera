@@ -30,3 +30,7 @@ RUN pip install --no-cache-dir -e .
 
 # 설치해주세용
 RUN pip install flask flask_cors
+
+# install 
+RUN pip install numpy==1.20.0
+RUN pip install poseval@git+https://github.com/svenkreiss/poseval.git
