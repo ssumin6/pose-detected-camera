@@ -3,6 +3,7 @@ import io
 import json
 import flask
 import numpy as np
+import time
 from PIL import Image
 from flask_cors import CORS
 from argparse import ArgumentParser
@@ -13,25 +14,26 @@ from mmpose.apis import (inference_top_down_pose_model, init_pose_model,
 app = flask.Flask(__name__)
 CORS(app)
 
+parser = ArgumentParser()
+parser.add_argument('--pose_config', type=str, default='../configs/top_down/hrnet/coco/hrnet_w48_coco_256x192.py', help='Config file for detection')
+parser.add_argument('--pose_checkpoint', type=str, default='https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth', help='Checkpoint file')
+parser.add_argument(
+    '--device', default='cpu', help='Device used for inference')
+parser.add_argument(
+    '--kpt-thr', type=float, default=0.3, help='Keypoint score threshold')
+
+args = parser.parse_args()
+
+pose_model = init_pose_model(
+    args.pose_config, args.pose_checkpoint, device=args.device.lower())
+
+dataset = pose_model.cfg.data['test']['type']
+
 def inference(image):
     """Visualize the demo images.
 
     Require the json_file containing boxes.
     """
-    parser = ArgumentParser()
-    parser.add_argument('--pose_config', type=str, default='../configs/top_down/hrnet/coco/hrnet_w48_coco_256x192.py', help='Config file for detection')
-    parser.add_argument('--pose_checkpoint', type=str, default='https://download.openmmlab.com/mmpose/top_down/hrnet/hrnet_w48_coco_256x192-b9e0b3ab_20200708.pth', help='Checkpoint file')
-    parser.add_argument(
-        '--device', default='cpu', help='Device used for inference')
-    parser.add_argument(
-        '--kpt-thr', type=float, default=0.3, help='Keypoint score threshold')
-
-    args = parser.parse_args()
-
-    pose_model = init_pose_model(
-        args.pose_config, args.pose_checkpoint, device=args.device.lower())
-
-    dataset = pose_model.cfg.data['test']['type']
 
     # optional
     return_heatmap = False
@@ -48,6 +50,7 @@ def inference(image):
     image = np.array(image)
     person_results.append(person)
 
+    t1 = time.time()
     # test a single image, with a list of bboxes
     pose_results, returned_outputs = inference_top_down_pose_model(
         pose_model,
@@ -58,6 +61,7 @@ def inference(image):
         dataset=dataset,
         return_heatmap=return_heatmap,
         outputs=output_layer_names)
+    t2 = time.time()
 
     # In order to save an image with pose detection result, Uncomment the following lines
     # ----------
@@ -72,11 +76,12 @@ def inference(image):
     #     show=False,
     #     out_file=out_file)
     # ----------
+    print(f"4-1: {t2-t1}")
     return pose_results
 
 ####################################################
 # TODO : change the each number of reference pose picture as appropriate directory
-ref_pose_path = ['./img1.jpg', './img1.jpg', './img1.jpg', './img1.jpg', './img1.jpg']
+ref_pose_path = ['./img1.png', './img1.png', './img1.png', './img1.png', './img1.png']
 ref_results = []
 
 def load_ref():
@@ -151,12 +156,20 @@ def test():
 def img():
     if flask.request.method == "POST":
         if flask.request.files.get("img"):
+            t1 = time.time()
             image = flask.request.files["img"].read()
+            t2 = time.time()
             ref_num = int(flask.request.values.get('type'))
+            t3 = time.time()
             image = Image.open(io.BytesIO(image))
+            t4 = time.time()
             pose_results = inference(image)
+            t5 = time.time()
             valid_or_not = compare_pose(pose_results, ref_num)
-            return 'hi'
+            t6 = time.time()
+            print(f"1: {t2-t1}\n2: {t3-t2}\n3: {t4-t3}\n4: {t5-t4}\n5: {t6-t5}")
+            return flask.json.dumps(valid_or_not)
+        return flask.json.dumps(False)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
