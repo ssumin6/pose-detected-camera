@@ -1,10 +1,13 @@
-<div align="center">
-    <img src="resources/mmpose-logo.png" width="400"/>
-</div>
+## Pose-detected Camera Project
+Implementation of pose-detection model suitable for a pose-detected camera application.
+Our additional implementation located in *\demo* and *\docker* folders.  
+
+Project Page is available on ![Website](https://buob.io).
+
+### Screen Capture of Android Application 
+![App Capture](imgs/screen_capture.png)
 
 ## Introduction
-
-English | [简体中文](README_CN.md)
 
 [![Documentation](https://readthedocs.org/projects/mmpose/badge/?version=latest)](https://mmpose.readthedocs.io/en/latest/?badge=latest)
 [![actions](https://github.com/open-mmlab/mmpose/workflows/build/badge.svg)](https://github.com/open-mmlab/mmpose/actions)
@@ -59,20 +62,8 @@ Supported algorithms:
 <details open>
 <summary>(click to collapse)</summary>
 
-- [x] [DeepPose](configs/top_down/deeppose/README.md) (CVPR'2014)
-- [x] [CPM](configs/top_down/cpm/README.md) (CVPR'2016)
-- [x] [Hourglass](configs/top_down/hourglass/README.md) (ECCV'2016)
-- [x] [SimpleBaseline](configs/top_down/resnet/README.md) (ECCV'2018)
 - [x] [HRNet](configs/top_down/hrnet/README.md) (CVPR'2019)
 - [x] [HRNetv2](configs/face/hrnetv2/README.md) (TPAMI'2019)
-- [x] [SCNet](configs/top_down/scnet/README.md) (CVPR'2020)
-- [x] [Associative Embedding](configs/bottom_up/hrnet/README.md) (NeurIPS'2017)
-- [x] [HigherHRNet](configs/bottom_up/higherhrnet/README.md) (CVPR'2020)
-- [x] [DarkPose](configs/top_down/darkpose/README.md) (CVPR'2020)
-- [x] [UDP](configs/top_down/udp/README.md) (CVPR'2020)
-- [x] [MSPN](configs/top_down/mspn/README.md) (ArXiv'2019)
-- [x] [RSN](configs/top_down/rsn/README.md) (ECCV'2020)
-- [x] [HMR](configs/mesh/hmr/README.md) (CVPR'2018)
 
 </details>
 
@@ -136,12 +127,6 @@ We demonstrate the superiority of our MMPose framework in terms of speed and acc
 
 | Model | Input size| MMPose (s/iter) | [HRNet](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch) (s/iter) | MMPose (mAP) | [HRNet](https://github.com/leoxiaobin/deep-high-resolution-net.pytorch) (mAP) |
 | :--- | :---------------: | :---------------: |:--------------------: | :----------------------------: | :-----------------: |
-| resnet_50  | 256x192  | **0.28** | 0.64 | **0.718** | 0.704 |
-| resnet_50  | 384x288  | **0.81** | 1.24 | **0.731** | 0.722 |
-| resnet_101 | 256x192  | **0.36** | 0.84 | **0.726** | 0.714 |
-| resnet_101 | 384x288  | **0.79** | 1.53 | **0.748** | 0.736 |
-| resnet_152 | 256x192  | **0.49** | 1.00 | **0.735** | 0.720 |
-| resnet_152 | 384x288  | **0.96** | 1.65 | **0.750** | 0.743 |
 | hrnet_w32  | 256x192  | **0.54** | 1.31 | **0.746** | 0.744 |
 | hrnet_w32  | 384x288  | **0.76** | 2.00 | **0.760** | 0.758 |
 | hrnet_w48  | 256x192  | **0.66** | 1.55 | **0.756** | 0.751 |
@@ -169,10 +154,6 @@ There are also tutorials:
 - [add new modules](docs/tutorials/4_new_modules.md)
 - [export a model to ONNX](docs/tutorials/5_export_model.md)
 - [customize runtime settings](docs/tutorials/6_customize_runtime.md)
-
-## FAQ
-
-Please refer to [FAQ](docs/faq.md) for frequently asked questions.
 
 ## License
 
