@@ -1,6 +1,6 @@
 ## Pose-detected Camera Project
 Implementation of pose-detection model suitable for a pose-detected camera application.
-Our additional implementation located in *\demo* and *\docker* folders.  
+Our additional implementation located in */demo* and */docker* folders.  
 
 Project Page is available on [Website](https://buob.io).
 
